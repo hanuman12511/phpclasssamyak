@@ -68,6 +68,9 @@
                     include("register.php");
                 
                   }
+                  else if($_POST['submit'] =="addproduct"){
+                    include("Product.php");
+                  }
                   else{
                     include("login.php");
                 
