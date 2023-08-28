@@ -52,6 +52,7 @@
         
         <button type="submit" class="btn" name="submit" value="register"> Register</button>
         <button type="submit" class="btn" name="submit" value="login">Login</button>
+        <button type="submit" class="btn" name="submit" value="addproduct">AppProduct</button>
         </form>
     
     </div>
