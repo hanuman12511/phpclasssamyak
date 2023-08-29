@@ -72,7 +72,7 @@ while($row=$r->fetch_assoc()){
     $pname = $row['pname'];
     $prate = $row['prate'];
     $pqty = $row['pqty'];
-echo "<tr><td>$pname</td><td>$prate</td><td>$pqty</td><td></td></tr>
+echo "<tr><td>$pname</td><td>$prate</td><td>$pqty</td><td><a href='delete.php?name=$pname'>delete</a></td></tr>
 "; 
 }
 
