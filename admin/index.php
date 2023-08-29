@@ -53,6 +53,7 @@
         <button type="submit" class="btn" name="submit" value="register"> Register</button>
         <button type="submit" class="btn" name="submit" value="login">Login</button>
         <button type="submit" class="btn" name="submit" value="addproduct">AppProduct</button>
+        <button type="submit" class="btn" name="submit" value="menu">Add Menu</button>
         </form>
     
     </div>
@@ -70,6 +71,9 @@
                   }
                   else if($_POST['submit'] =="addproduct"){
                     include("Product.php");
+                  }
+                  else if($_POST['submit'] =="menu"){
+                    include("menu.php");
                   }
                   else{
                     include("login.php");
