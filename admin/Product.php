@@ -28,10 +28,12 @@ margin: auto;
     </style>
 
 
-<div class="container">
-    
+
+  
+
     <div class="product-div">
-    <form action="" method="post">
+   <form action="" method="POST" enctype="multipart/form-data">
+         <input type="file" name="image" />
             <input type="txt" name="pname" placeholder="enter product name.." /><br>
             <input type="txt" name="prate"  placeholder="enter product rate.." /><br>
             <input type="txt" name="pqty"   placeholder="enter product qty.."/><br>
@@ -41,10 +43,38 @@ margin: auto;
 </div>
 <?php
 if(isset($_POST['submit'])){
-$pname= $_POST['pname'];
+
+    if(isset($_FILES['image'])){
+        $errors= array();
+        $file_name = $_FILES['image']['name'];
+        $file_size =$_FILES['image']['size'];
+        $file_tmp =$_FILES['image']['tmp_name'];
+        $file_type=$_FILES['image']['type'];
+        $file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
+        
+        $extensions= array("jpeg","jpg","png");
+        
+        if(in_array($file_ext,$extensions)=== false){
+           $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+        }
+        
+        if($file_size > 2097152){
+           $errors[]='File size must be excately 2 MB';
+        }
+        
+        if(empty($errors)==true){
+           move_uploaded_file($file_tmp,"images/".$file_name);
+           echo "Success";
+        }else{
+           print_r($errors);
+        }
+     }
+  
+$pimage = $file_name;
+    $pname= $_POST['pname'];
 $prate= $_POST['prate'];
 $pqty= $_POST['pqty'];
-$sql = "insert into product values('$pname','$prate','$pqty')";
+$sql = "insert into product values('$pname','$prate','$pqty','$pimage')";
 if($conn->query($sql)===TRUE){
     echo "insert date";
 }
@@ -59,6 +89,10 @@ if($conn->query($sql)===TRUE){
         background-color: rgb(225, 127, 255);
         
     }
+    .image{
+        width: 50px;
+        height: 50px;
+    }
     </style>
 <table class="showproduct">
     <tr><td>ProductNAme</td><td>Product rate</td><td> product qty</td><td></td></tr>
@@ -68,11 +102,16 @@ $sql = "select *from product";
 $r = $conn->query($sql);
 while($row=$r->fetch_assoc()){
    // print_r($row) ;
-   
+   $img =$row['image'];
     $pname = $row['pname'];
     $prate = $row['prate'];
     $pqty = $row['pqty'];
-echo "<tr><td>$pname</td><td>$prate</td><td>$pqty</td><td><a href='delete.php?name=$pname'>delete</a></td></tr>
+echo "<tr>
+<td>$pname</td>
+<td>$prate</td>
+<td>$pqty</td>
+<td><img src='images/$img' class='image'/></td>
+<td><a href='delete.php?name=$pname'>delete</a></td></tr>
 "; 
 }
 
